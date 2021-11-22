@@ -1,9 +1,15 @@
+
 import time
 import sys
 import subprocess
 
 from time import sleep
 
+def config_gpio():
+        cmd = "/usr/bin/sudo /usr/local/bin/gpio mode 11 in"
+        test = subprocess.check_output(cmd, shell=True).decode(sys.stdout.encoding)
+        cmd = "/usr/bin/sudo /usr/local/bin/gpio mode 11 down"
+        test = subprocess.check_output(cmd, shell=True).decode(sys.stdout.encoding)
 
 def shut_down():
         print("Shutdown")
@@ -13,10 +19,12 @@ def shut_down():
         print(output)
 
 def main():
+        config_gpio()
         while True:
                 sleep(5)
                 cmd = "gpio read 11 | cut -d' ' -f1"
                 Shutdown_Status = subprocess.check_output(cmd, shell=True).decode(sys.stdout.encoding)
+                print (int(Shutdown_Status))
                 if int(Shutdown_Status) == 0:
                         shut_down()
 
