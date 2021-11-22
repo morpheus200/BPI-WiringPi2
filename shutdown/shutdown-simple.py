@@ -7,14 +7,21 @@ from time import sleep
 
 def config_gpio():
         cmd = "/usr/bin/sudo /usr/local/bin/gpio mode 11 in"
-        test = subprocess.check_output(cmd, shell=True).decode(sys.stdout.encoding)
+        subprocess.check_output(cmd, shell=True)
         cmd = "/usr/bin/sudo /usr/local/bin/gpio mode 11 down"
-        test = subprocess.check_output(cmd, shell=True).decode(sys.stdout.encoding)
+        subprocess.check_output(cmd, shell=True)
+        cmd = "/usr/bin/sudo /usr/local/bin/gpio mode 6 out"
+        subprocess.check_output(cmd, shell=True)
+        cmd = "/usr/bin/sudo /usr/local/bin/gpio write 6 1"
+        subprocess.check_output(cmd, shell=True)
+
 
 def shut_down():
         print("Shutdown")
         command = "/usr/bin/sudo /sbin/shutdown -h now"
         process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+        cmd = "/usr/bin/sudo /usr/local/bin/gpio write 6 0"
+        test = subprocess.check_output(cmd, shell=True).decode(sys.stdout.encoding)
         output = process.communicate()[0]
         print(output)
 
